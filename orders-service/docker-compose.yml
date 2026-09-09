@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    container_name: orders-service
+    ports:
+      - "3030:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: order-service
+    depends_on:
+      - db
+  db:
+    image: postgres:15.3
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: order-service
+    ports:
+      - "5439:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
