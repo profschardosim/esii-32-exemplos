@@ -1,27 +1,39 @@
 version: "3"
 
 services:
-  app:
-    build: .
-    container_name: orders-service
-    ports:
-      - "3030:3000"
-    environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: order-service
-    depends_on:
-      - db
-  db:
+  # app:
+  #   build: .
+  #   container_name: orders-service
+  #   ports:
+  #     - "3030:3000"
+  #   environment:
+  #     DB_HOST: db32
+  #     DB_PORT: 5432
+  #     DB_USER: postgres
+  #     DB_PASSWORD: postgres
+  #     DB_NAME: order-service
+  #     RABBITMQ_URL: amqp://admin:securepassword123@rabbitmq:5672
+  #   depends_on:
+  #     - db32
+  #     - rabbitmq
+
+  db32:
     image: postgres:15.3
-    container_name: postgres
+    container_name: db32
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: order-service
     ports:
-      - "5439:5432"
+      - "5432:5432"
     volumes:
       - ./data:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: securepassword123
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"

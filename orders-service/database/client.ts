@@ -7,10 +7,10 @@ export default class DatabaseClient {
     private constructor() {
         this.pool = new Pool({
             user: 'postgres',
-            host: 'localhost',
+            host: '0.0.0.0',
             database: 'order-service',
             password: 'postgres',
-            port: 5439,
+            port: 5432,
         });
 
         this.pool.query(`
